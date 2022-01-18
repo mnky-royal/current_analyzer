@@ -21,7 +21,7 @@ filename = str(datetime.now()).replace("-","").replace(" ","-").split(".")[0] + 
 
 #Create file and headers
 with open(filename,'a') as f:
-    f.write("Time,Voltage,Current,Power")
+    f.write("Time,Voltage,Current,Power\n")
 
 # measure and display loop
 while True:
@@ -36,5 +36,5 @@ while True:
     print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage3 + shunt_voltage3),(shunt_voltage3),(bus_voltage3),(power3),(current3/1000)))
     print("")
     with open(filename,'a') as f:
-        f.write(str(time.strftime("%I:%M:%S"))+",{},{},{}".format((bus_voltage3+shunt_voltage3),(current3/1000),(power3)))
+        f.write(str(time.strftime("%I:%M:%S"))+",{:6.3f},{:9.6f},{:9.6f}\n".format((bus_voltage3+shunt_voltage3),(current3/1000),(power3)))
     time.sleep(2)
