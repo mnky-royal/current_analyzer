@@ -36,5 +36,5 @@ while True:
     print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage3 + shunt_voltage3),(shunt_voltage3),(bus_voltage3),(power3),(current3/1000)))
     print("")
     with open(filename,'a') as f:
-        f.write("{},{},{},{}".format(time.strftime("%I:%M:%S"),(bus_voltage3+shunt_voltage3),(current3),(power3)))
+        f.write(str(time.strftime("%I:%M:%S"))+",{},{},{}".format((bus_voltage3+shunt_voltage3),(current3/1000),(power3)))
     time.sleep(2)
