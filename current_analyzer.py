@@ -40,6 +40,8 @@ while True:
         f.write(str(time.strftime("%I:%M:%S"))+",{:6.3f},{:9.6f},{:9.6f}\n".format((bus_voltage3+shunt_voltage3),(current3/1000),(power3)))
     #detect q
     if keyboard.is_pressed("Esc"):
+        print("Uploading")
+        time.sleep(3)
         break
 
     time.sleep(2)
