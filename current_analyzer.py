@@ -10,6 +10,7 @@ i2c_bus = board.I2C()
 
 #Assing variables to I2C buses
 ina3 = INA219(i2c_bus,addr=0x42)
+ina2 = INA219(i2c_bus,addr=0x41)
 
 
 # Configuration
@@ -17,12 +18,16 @@ ina3.bus_adc_resolution = ADCResolution.ADCRES_12BIT_32S
 ina3.shunt_adc_resolution = ADCResolution.ADCRES_12BIT_32S
 ina3.bus_voltage_range = BusVoltageRange.RANGE_16V
 
+ina2.bus_adc_resolution = ADCResolution.ADCRES_12BIT_32S
+ina2.shunt_adc_resolution = ADCResolution.ADCRES_12BIT_32S
+ina2.bus_voltage_range = BusVoltageRange.RANGE_16V
+
 #Create output name
 filename = str(datetime.now()).replace("-","").replace(" ","-").split(".")[0] + ".csv"
 
 #Create file and headers
 with open(filename,'a') as f:
-    f.write("Time,Voltage,Current,Power\n")
+    f.write("Time,Voltage,Current,Power,BatteryVoltage\n")
 
 # measure and display loop
 while True:
@@ -30,14 +35,16 @@ while True:
     shunt_voltage3 = ina3.shunt_voltage    # voltage between V+ and V- across the shunt
     power3 = ina3.power
     current3 = ina3.current                # current in mA
-    
+
+    bus_voltage2 = ina2.bus_voltage        # voltage on V- (load side)
+    shunt_voltage2 = ina2.shunt_voltage    # voltage between V+ and V- across the shunt
 
     
     # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
-    print("PSU Voltage:{:6.3f}V    Shunt Voltage:{:9.6f}V    Load Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A".format((bus_voltage3 + shunt_voltage3),(shunt_voltage3),(bus_voltage3),(power3),(current3/1000)))
+    print("PSU Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A    Battery Voltage:{:6.3f}".format((bus_voltage3 + shunt_voltage3),(power3),(current3/1000),(bus_voltage2 + shunt_voltage2)))
     print("")
     with open(filename,'a') as f:
-        f.write(str(time.strftime("%I:%M:%S"))+",{:6.3f},{:9.6f},{:9.6f}\n".format((bus_voltage3+shunt_voltage3),(current3/1000),(power3)))
+        f.write(str(time.strftime("%I:%M:%S"))+",{:6.3f},{:9.6f},{:9.6f}\n".format((bus_voltage3+shunt_voltage3),(current3/1000),(power3),(bus_voltage3+shunt_voltage3)))
     #detect q
     if keyboard.is_pressed("Esc"):
         print("Uploading")
