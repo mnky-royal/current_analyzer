@@ -41,11 +41,11 @@ while True:
 
     
     # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
-    print("PSU Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A    Battery Voltage:{:6.3f}".format((bus_voltage3 + shunt_voltage3),(power3),(current3/1000),(bus_voltage2 + shunt_voltage2)))
+    print("PSU Voltage:{:6.3f}V    Power:{:9.6f}W    Current:{:9.6f}A    Battery Voltage:{:6.3f} Hold Esc to stop".format((bus_voltage3 + shunt_voltage3),(power3),(-current3/1000),(bus_voltage2 + shunt_voltage2)))
     print("")
     with open(filename,'a') as f:
-        f.write(str(time.strftime("%I:%M:%S"))+",{:6.3f},{:9.6f},{:9.6f}\n".format((bus_voltage3+shunt_voltage3),(current3/1000),(power3),(bus_voltage3+shunt_voltage3)))
-    #detect q
+        f.write(str(time.strftime("%I:%M:%S"))+",{:6.3f},{:9.6f},{:9.6f}\n".format((bus_voltage3+shunt_voltage3),(-current3/1000),(power3),(bus_voltage3+shunt_voltage3)))
+    #detect Esc
     if keyboard.is_pressed("Esc"):
         print("Uploading")
         time.sleep(3)
