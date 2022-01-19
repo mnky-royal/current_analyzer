@@ -3,6 +3,7 @@ from datetime import datetime
 import time
 import board
 from adafruit_ina219 import ADCResolution, BusVoltageRange, INA219
+import keyboard
 
 #Define I2C
 i2c_bus = board.I2C()
@@ -37,4 +38,8 @@ while True:
     print("")
     with open(filename,'a') as f:
         f.write(str(time.strftime("%I:%M:%S"))+",{:6.3f},{:9.6f},{:9.6f}\n".format((bus_voltage3+shunt_voltage3),(current3/1000),(power3)))
+    #detect q
+    if keyboard.is_pressed("Esc"):
+        break
+
     time.sleep(2)
